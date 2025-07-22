@@ -5,6 +5,13 @@ import React from "react";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
+//! export const dynamic = "force-dynamic";
+//TODO: disabling the caching feature --> Dynamic rout
+//! export const revalidate = 0;
+//TODO: Disable caching
+//? During on Demand caching we use - 
+//TODO: revalidatePath('/)
+
 const Home = async () => {
 
   const snippets = await prisma.snippet.findMany();
