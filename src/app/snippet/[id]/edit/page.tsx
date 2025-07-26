@@ -9,16 +9,15 @@ type Props = {
   };
 };
 
-export default async function EditSnippet({ params }: Props) {
+export default async function Page({ params }: Props) {
   const id = parseInt(params.id);
 
-  if (isNaN(id)) notFound();
-
+  if (isNaN(id)) return notFound(); 
   const snippet = await prisma.snippet.findUnique({
     where: { id },
   });
 
-  if (!snippet) notFound();
+  if (!snippet) return notFound(); 
 
   return (
     <div>
