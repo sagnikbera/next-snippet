@@ -1,23 +1,29 @@
 import CodeEditor from "@/components/editor";
 import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
 import React from "react";
 
-
-const editSnippet = async ({params} : {params : {id : string} }) => {
-    let {id} = params;
-    let _id = parseInt(id);
-    let snippet = await prisma.snippet.findUnique({
-        where: {
-            id : _id
-        }
-    })
-
-    if(!snippet) return <h1>Snippet not found!</h1>
-  return (
-    <div>
-        <CodeEditor snippet={snippet}/>
-    </div>
-  );
+// ✅ Properly typed props
+type Props = {
+  params: {
+    id: string;
+  };
 };
 
-export default editSnippet;
+export default async function EditSnippet({ params }: Props) {
+  const id = parseInt(params.id);
+
+  if (isNaN(id)) return notFound();
+
+  const snippet = await prisma.snippet.findUnique({
+    where: { id },
+  });
+
+  if (!snippet) return notFound();
+
+  return (
+    <div>
+      <CodeEditor snippet={snippet} />
+    </div>
+  );
+}
