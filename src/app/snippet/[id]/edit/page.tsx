@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import React from "react";
 
-// ✅ Properly typed props
 type Props = {
   params: {
     id: string;
@@ -13,13 +12,13 @@ type Props = {
 export default async function EditSnippet({ params }: Props) {
   const id = parseInt(params.id);
 
-  if (isNaN(id)) return notFound();
+  if (isNaN(id)) notFound();
 
   const snippet = await prisma.snippet.findUnique({
     where: { id },
   });
 
-  if (!snippet) return notFound();
+  if (!snippet) notFound();
 
   return (
     <div>
